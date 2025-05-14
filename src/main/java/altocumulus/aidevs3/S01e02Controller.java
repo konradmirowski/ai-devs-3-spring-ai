@@ -12,15 +12,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 @RequestMapping("/s01e02")
 public class S01e02Controller {
 
+    private record RobotCommunicationProtocol(String text, String msgID) {}
     private final ChatClient.Builder chatClientBuilder;
-
     private static final String ROBOISO_2230_EXCEPTION = "************* Uwaga! *************\n" + //
                 "W celu podniesienia poziomu bezpieczeństwa, w pamięci robotów zgodnie z normą RoboISO 2230\n" + //
                 "wprowadzono błędne informacje, takie jak:\n" + //
@@ -45,52 +44,29 @@ public class S01e02Controller {
     }
 
     private String verify(String text, String msgId, int maxAIRequests) {
-        if (StringUtils.startsWith(text, "{{FLG:")) {
-            return text;
-        }
-        
         if (maxAIRequests == 0) {
-            return "Max AI requests reached";
+            return "Max AI requests reached, flag not found";
         }
 
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("question to robot: \n");
+        System.out.println(String.format("Question to robot: %s, msgId: %s", text, msgId));
 
-        stringBuilder.append("{\n\"text\":\"");
-        stringBuilder.append(text);
-        stringBuilder.append("\",\n\"msgID\":\"");
-        stringBuilder.append(msgId);
-        stringBuilder.append("\"\n}\n");
-
-        String robotResponse = talkToRobot(text, msgId);
-        stringBuilder.append("robot response: \n");
-        stringBuilder.append(robotResponse);
-        stringBuilder.append("\n\n");
+        String robotAnswer = talkToRobot(text, msgId);
+        System.out.println(String.format("Robot's answer: %s", robotAnswer));
         
         try {
             ObjectMapper mapper = new ObjectMapper();
-            JsonNode jsonNode = mapper.readTree(robotResponse);
-            
-            String newText = jsonNode.get("text").asText();
-            String newMsgId = jsonNode.get("msgID").asText();
+            RobotCommunicationProtocol robotCommunicationProtocol = mapper.readValue(robotAnswer, RobotCommunicationProtocol.class);
+            String newText = robotCommunicationProtocol.text();
+            String newMsgId = robotCommunicationProtocol.msgID();
 
-            if (newText != null && newMsgId != null) {
-                if (StringUtils.startsWith(newText, "{{FLG:")) {
-                    stringBuilder.append("flag found:: \n");
-                    stringBuilder.append(newText);
-                } else {
-                    String aiAnswer = forwardQuestionToAI(newText);
-                    stringBuilder.append("aiAnswer: \n");
-                    stringBuilder.append(aiAnswer);
-                    stringBuilder.append("\n\n");
-
-                    robotResponse = verify(aiAnswer, newMsgId, maxAIRequests - 1);
-                    stringBuilder.append(robotResponse);
-                }
+            if (!StringUtils.startsWith(newText, "{{FLG:")) {
+                String aiAnswer = forwardQuestionToAI(newText);
+                System.out.println(String.format("AI answer: %s", aiAnswer));
+                return verify(aiAnswer, newMsgId, maxAIRequests - 1);
             } 
-            return stringBuilder.toString();
+            return newText;
         } catch (Exception e) {
-            return stringBuilder.toString() + "\n\nError parsing JSON: " + e.getMessage();
+            return "Error: " + e.getMessage();
         }
     }
 
@@ -100,22 +76,16 @@ public class S01e02Controller {
         return chatResponse;
     }
     
-    private String talkToRobot (String text, String msgId) {
+    private String talkToRobot(String text, String msgId) {
         RestTemplate restTemplate = new RestTemplate();
         String apiUrl = "https://xyz.ag3nts.org/verify";
 
-        String requestBody = String.format("""
-                {
-                    "text": "%s",
-                    "msgID": "%s"
-                }""", text, msgId);
-
-
+        RobotCommunicationProtocol request = new RobotCommunicationProtocol(text, msgId);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<String> request = new HttpEntity<>(requestBody, headers);
+        HttpEntity<RobotCommunicationProtocol> httpEntity = new HttpEntity<>(request, headers);
         
-        ResponseEntity<String> response = restTemplate.postForEntity(apiUrl, request, String.class);
+        ResponseEntity<String> response = restTemplate.postForEntity(apiUrl, httpEntity, String.class);
         return response.getBody();
     }
 }
