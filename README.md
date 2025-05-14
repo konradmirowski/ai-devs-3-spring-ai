@@ -1,4 +1,4 @@
-# AI Devs 3 
+# AI Devs 3 Spring AI
 
 This Spring Boot application is the playground for excersises from AI DEVS 3 (aidevs.pl) course.
 
