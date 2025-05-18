@@ -68,3 +68,57 @@ Send a GET request to:
 ```
 http://localhost:8080/s01e02/api/flag
 ```
+
+## S01e03Controller
+
+Key learning points:
+- Understanding that not all data processing requires LLM involvement
+- Some tasks are better handled by traditional application logic (e.g., mathematical calculations)
+- Importance of optimizing LLM usage due to context window limitations
+- Hybrid approach: using both application logic and LLM where appropriate
+
+The goals of this exercise are to:
+- Read and validate JSON file with test data
+- Validate mathematical equations (e.g., "22 + 84 = 106")
+- Process optional test cases using LLM
+- Send validated data to API
+- Handle API responses
+- Return flag when successful
+
+The JSON structure includes:
+```json
+{
+    "apikey": "your-api-key",
+    "description": "task description",
+    "copyright": "copyright info",
+    "test-data": [
+        {
+            "question": "22 + 84",
+            "answer": 106,
+            "test": {
+                "q": "question for LLM",
+                "a": "LLM answer"
+            }
+        }
+    ]
+}
+```
+
+### Usage
+Send a GET request to:
+```
+http://localhost:8080/s01e03/api/flag
+```
+
+The controller will:
+1. Read input JSON from `resources/static/s01e03controller/input.json`
+2. Validate mathematical equations
+3. Process any test questions through LLM
+4. Submit validated data to API endpoint
+5. Return the flag or error message
+
+### Implementation Highlights
+- Mathematical validations performed by application logic
+- LLM used only for specific test cases requiring natural language processing
+- Efficient resource usage by avoiding unnecessary LLM calls
+- Reduced costs and improved performance through selective LLM usage
