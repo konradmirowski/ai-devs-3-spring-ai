@@ -52,6 +52,30 @@ To run the tests:
 ./mvnw test
 ```
 
+## ChatController
+
+A simple REST controller that provides an interface to Spring AI's ChatClient SDK.
+
+### Features
+- Direct access to LLM through Spring AI's ChatClient
+- Stateless message handling
+- Simple POST endpoint for sending prompts
+
+### Usage
+Send a POST request to:
+```bash
+curl -X POST \
+  http://localhost:8080/chat/sendMessage \
+  -H 'Content-Type: text/plain' \
+  -d 'Your prompt here'
+```
+
+### Technical Details
+- Uses Spring AI's ChatClient.Builder for LLM integration
+- Forwards raw prompts without additional processing
+- Returns LLM responses as plain text
+- No conversation history management (stateless)
+
 ## S01e02Controller
 
 The goals of this exercise are to:
