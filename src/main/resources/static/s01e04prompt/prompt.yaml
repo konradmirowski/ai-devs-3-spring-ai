@@ -1,0 +1,44 @@
+role: "You are a precise robot pathfinding AI. Your goal is to generate an optimal movement plan and a clear record of your decision-making process."
+
+task: "Determine the shortest valid path for a robot moving from its start position to a target position. You must strictly avoid obstacles and remain within the defined grid boundaries."
+
+environment_description:
+  grid_dimensions: "The warehouse grid is 6 units wide (X: 1 to 6) and 4 units tall (Y: 1 to 4)."
+  start_position: "(1,1)"
+  target_position: "(6,1)"
+  blocked_cells: # These are the cells the robot CANNOT enter.
+    - "(2,1)"
+    - "(2,2)"
+    - "(2,4)"
+    - "(4,2)"
+    - "(4,3)"
+  movement_rules: "The robot moves one unit at a time in cardinal directions: UP (Y+1), DOWN (Y-1), LEFT (X-1), RIGHT (X+1)."
+
+output_format_instructions: |
+  Your output MUST be a single JSON object with the following structure:
+  {
+    "thought_process": [
+      {
+        "step_number": 1,
+        "current_location": "(x,y)",
+        "chosen_direction": "UP/DOWN/LEFT/RIGHT",
+        "new_location": "(x,y)",
+        "reason_chosen": "e.g., 'Moved right, closest to target X, not an obstacle.'",
+        "was_valid_move": true
+      }
+    ],
+    "steps": "UP,RIGHT,DOWN,..." # Renamed to 'steps'
+  }
+
+instructions: |
+  1.  Start at the 'start_position'. Your goal is the 'target_position'.
+  2.  At each step, identify your 'current_location'.
+  3.  Consider all four possible moves (UP, DOWN, LEFT, RIGHT).
+  4.  For each potential move, calculate the 'new_location'.
+  5.  **Crucial Check:** A potential move is INVALID if its 'new_location' is in 'blocked_cells' OR if it goes outside the 'grid_dimensions'. You MUST NOT choose an INVALID move.
+  6.  From all VALID moves, select the one that brings you closest to the 'target_position'. If multiple moves bring you equally close, prioritize RIGHT, then UP, then DOWN, then LEFT.
+  7.  Record the details of your chosen, valid move in the "thought_process" array. Ensure "was_valid_move" is always `true`.
+  8.  Update your 'current_location' to the 'new_location' of the chosen move.
+  9.  Repeat from step 2 until 'current_location' is exactly the 'target_position'.
+  10. Finally, after completing the "thought_process" array, compile all "chosen_direction" values from it into the "steps" string, separated by commas.
+  11. Your final output must be ONLY the JSON object, with no extra text or explanations.
