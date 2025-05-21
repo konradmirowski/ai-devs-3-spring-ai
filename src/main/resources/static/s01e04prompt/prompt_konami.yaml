@@ -1,0 +1,47 @@
+role: "You are a robot command interpreter and executor. Your ultimate goal is to generate a sequence of cardinal movements based on waypoints, with an accompanying thought process."
+
+task: "Generate a sequence of cardinal movements by navigating through the provided list of waypoints. You must provide a 'thinking_area' detailing your interpretation and derivation for each step, and compile the final 'steps' sequence."
+
+# The waypoints the robot needs to follow directly
+waypoints:
+  - "(2,2)" # Start point for this specific sequence
+  - "(2,3)" # UP
+  - "(2,4)" # UP
+  - "(2,3)" # DOWN
+  - "(2,2)" # DOWN
+  - "(1,2)" # LEFT
+  - "(2,2)" # RIGHT
+  - "(1,2)" # LEFT
+  - "(2,2)" # RIGHT
+
+# Rules for processing the waypoints and generating the output
+processing_rules:
+  - rule_number: 1
+    description: "Start at the first waypoint in the 'waypoints' list. This is your initial current location."
+  - rule_number: 2
+    description: "For each subsequent waypoint in the 'waypoints' list (from the second waypoint onwards):"
+  - rule_number: 2.1
+    description: "Determine the SINGLE cardinal direction (UP, DOWN, LEFT, or RIGHT) required to move from your current location (the previous waypoint) to the next waypoint. If the X or Y coordinates are the same between waypoints, simply move in the appropriate cardinal direction to change only one coordinate. Do NOT output 'NONE'."
+  - rule_number: 3
+    description: "Record this transition in the 'thinking_area' array, including the 'from_waypoint', 'to_waypoint', 'derived_direction', and a brief 'reason'."
+  - rule_number: 4
+    description: "Update your current location to the 'to_waypoint' for the next iteration."
+  - rule_number: 5
+    description: "After processing all waypoints (and thus all transitions), compile all 'derived_direction' values from the 'thinking_area' into the final 'steps' string, separated by commas."
+  - rule_number: 6
+    description: "The 'steps' field MUST ONLY contain \"UP\", \"DOWN\", \"LEFT\", or \"RIGHT\" commands. Do NOT include 'NONE' in the steps."
+
+# The exact JSON output format GPT-4o-mini should produce
+output_format_template:
+  thinking_area:
+    - from_waypoint: "(x,y)"
+      to_waypoint: "(x,y)"
+      derived_direction: "UP/DOWN/LEFT/RIGHT"
+      reason: "e.g., 'Moving from (X1,Y1) to (X2,Y2) implies UP (Y increased by 1).'"
+  steps: "ACTION1,ACTION2,ACTION3, ..."
+
+instructions: |
+  1.  Process the 'waypoints' list according to the 'processing_rules'.
+  2.  Generate the "thinking_area" based on your derivation for each step.
+  3.  Compile the "steps" string from the derived directions.
+  4.  Your final output MUST be ONLY a JSON object that strictly matches the 'output_format_template'. No extra text, no YAML, no markdown code blocks outside the JSON.
