@@ -2,6 +2,7 @@ package altocumulus.aidevs3.service;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.prompt.ChatOptions;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -27,6 +28,13 @@ public class ChatService {
         } catch (Exception e) {
             return "Error initializing chat client: " + e.getMessage();
         }
-    
     }
+
+    //TODO
+    // private String askAI(String text) {
+    //     ChatOptions chatOptions = ChatOptions.builder().model("gpt-4o-mini").build();
+    //     ChatClient chatClient = chatClientBuilder.defaultOptions(chatOptions).build();
+    //     String chatResponse = chatClient.prompt().system(SYSTEM_PROMPT).user(text).call().content();
+    //     return chatResponse;
+    // }
 }
