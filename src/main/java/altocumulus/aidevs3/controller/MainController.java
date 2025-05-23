@@ -17,18 +17,7 @@ public class MainController {
     private final S01e03Service s01e03Service;
     private final S01e05Service s01e05Service;
 
-    // @Autowired
-    // public MainController(
-    //     S01e02Service s01e02Service,
-    //     S01e03Service s01e03Service,
-    //     S01e05Service s01e05Service
-    // ) {
-    //     this.s01e02Service = s01e02Service;
-    //     this.s01e03Service = s01e03Service;
-    //     this.s01e05Service = s01e05Service;
-    // }
-
-        @Autowired
+    @Autowired
     public MainController(S01e02Service s01e02Service, S01e03Service s01e03Service, S01e05Service s01e05Service) {
         this.s01e02Service = s01e02Service;
         this.s01e03Service = s01e03Service;
