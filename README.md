@@ -129,7 +129,7 @@ Located in `src/main/resources/static/s01e04prompt/prompt.yaml`
 
 This prompt was created with Google Gemini to define a precise robot pathfinding task, specifically optimized for GPT-4o-mini's limitations:
 
-- **Model Constraints**:
+**Model Constraints**:
 
   - Uses GPT-4-mini which has limited capabilities compared to larger models
   - Requires more explicit instructions and constraints
