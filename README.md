@@ -1,4 +1,4 @@
-# AI Devs 3 Spring AI
+# AI Devs 3 - Spring AI
 
 This Spring Boot application is the playground for excersises from AI DEVS 3 (aidevs.pl) course.
 
@@ -146,6 +146,36 @@ The controller will:
 - LLM used only for specific test cases requiring natural language processing
 - Efficient resource usage by avoiding unnecessary LLM calls
 - Reduced costs and improved performance through selective LLM usage
+
+## S01e05Service - Text Censorship Service
+
+This service is responsible for censoring personal information in text using OpenAI's GPT model. It follows specific censorship rules to protect sensitive data.
+
+### Features:
+- Censors personal information including:
+  - Full names
+  - City names
+  - Street addresses (with special handling for "ul." prefix)
+  - Age information
+- Uses the word "CENZURA" for all censored content
+- Preserves text structure while applying censorship
+
+### Example:
+Input:
+```
+Podejrzany: Krzysztof Kwiatkowski. Mieszka w Szczecinie przy ul. Różanej 12. Ma 31 lat.
+```
+
+Output:
+```
+Podejrzany: CENZURA. Mieszka w CENZURA przy ul. CENZURA. Ma CENZURA lat.
+```
+### Usage
+Send a GET request to:
+```
+http://localhost:8080/s01e03/api/flag
+```
+
 
 ## Prompts
 

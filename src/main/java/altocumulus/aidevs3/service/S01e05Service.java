@@ -6,7 +6,6 @@ import altocumulus.aidevs3.client.ag3nts.C3ntralaClient;
 import altocumulus.aidevs3.model.common.ApiRequest;
 import altocumulus.aidevs3.service.chat.ChatService;
 
-//TODO add README
 @Service
 public class S01e05Service {
 
@@ -47,11 +46,11 @@ public class S01e05Service {
 
     public String getFlag() {
         String data = c3ntralaClient.getDataForS01e05();
-        System.out.println("Data: " + data); //TODO: remove
+        System.out.println("Data: " + data);
         String censoredData = censorData(data);
-        System.out.println("Censored Data: " + censoredData); //TODO: remove
+        System.out.println("Censored Data: " + censoredData);
         String flag = sendDataToApi(censoredData);
-        System.out.println("Flag: " + flag); //TODO: remove
+        System.out.println("Flag: " + flag);
         return flag;
     }
 
