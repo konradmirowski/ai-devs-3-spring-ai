@@ -120,3 +120,38 @@ Podejrzany: Krzysztof Kwiatkowski. Mieszka w Szczecinie przy ul. Różanej 12. M
 Output:
 Podejrzany: CENZURA. Mieszka w CENZURA przy ul. CENZURA. Ma CENZURA lat.
 ```
+
+## Prompts
+
+### S01e04 - Robot Pathfinding
+
+Located in `src/main/resources/static/s01e04prompt/prompt.yaml`
+
+This prompt was created with Google Gemini to define a precise robot pathfinding task, specifically optimized for GPT-4o-mini's limitations:
+
+- **Model Constraints**:
+
+  - Uses GPT-4-mini which has limited capabilities compared to larger models
+  - Requires more explicit instructions and constraints
+  - Less reliable at complex reasoning tasks
+  - Needs structured output format to ensure consistent responses
+  - Cannot guarantee 100% deterministic pathfinding in a single turn
+  - May require multiple attempts or fallback strategies
+
+**Key Features**:
+
+- Structured YAML format optimized for limited model capabilities
+- Simple, clear movement rules
+- Explicit output requirements in JSON format
+- Step-by-step instructions to guide limited reasoning
+- Built-in validation rules for response consistency
+
+The prompt demonstrates how to:
+- Structure AI instructions for less capable models
+- Define clear input/output formats for reliable responses
+- Include explicit validation requirements
+- Break down complex tasks into manageable steps
+- Enforce specific response formats to prevent hallucination
+- Acknowledge and work around model limitations
+- Plan for potential inconsistencies in responses
+- Implement fallback strategies for unreliable outputs
