@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import altocumulus.aidevs3.client.ag3nts.XyzClient;
 import altocumulus.aidevs3.model.s01e02.RobotCommunicationProtocol;
+import altocumulus.aidevs3.service.chat.ChatService;
 
 @Service
 public class S01e02Service {
@@ -59,7 +60,7 @@ public class S01e02Service {
             String newMsgId = robotCommunicationProtocol.msgID();
 
             if (!StringUtils.startsWith(newText, "{{FLG:")) {
-                String aiAnswer = chatService.askAI(SYSTEM_PROMPT, newText);
+                String aiAnswer = chatService.askAI(newText, SYSTEM_PROMPT);
                 System.out.println(String.format("AI answer: %s", aiAnswer));
                 return verify(aiAnswer, newMsgId, maxAIRequests - 1);
             } 
