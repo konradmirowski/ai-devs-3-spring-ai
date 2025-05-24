@@ -17,6 +17,7 @@ import altocumulus.aidevs3.model.common.ApiRequest;
 import altocumulus.aidevs3.model.s01e03.InputJson;
 import altocumulus.aidevs3.model.s01e03.Test;
 import altocumulus.aidevs3.model.s01e03.TestData;
+import altocumulus.aidevs3.service.chat.ChatService;
 
 @Service
 public class S01e03Service {
@@ -68,7 +69,7 @@ public class S01e03Service {
                     
                     // Handle test cases if present
                     Optional<Test> updatedTest = data.test().map(test -> {
-                        String aiAnswer = chatService.askAI(SYSTEM_PROMPT, test.q());
+                        String aiAnswer = chatService.askAI(test.q(), SYSTEM_PROMPT);
                         System.out.println(String.format("AI Q: %s, AI A: %s", test.q(), aiAnswer));
                         return new Test(test.q(), aiAnswer);
                     });

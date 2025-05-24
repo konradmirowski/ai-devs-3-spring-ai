@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import altocumulus.aidevs3.client.ag3nts.C3ntralaClient;
 import altocumulus.aidevs3.model.common.ApiRequest;
+import altocumulus.aidevs3.service.chat.ChatService;
 
+//TODO add README
 @Service
 public class S01e05Service {
 
@@ -56,7 +58,7 @@ public class S01e05Service {
     private String censorData(String data) {
         String censoredData = "";
         try {
-            String chatResponse = chatService.askAI(SYSTEM_PROMPT, data);
+            String chatResponse = chatService.askAI(data, SYSTEM_PROMPT);
             censoredData = chatResponse;
         } catch (Exception e) {
             System.out.println("Error censoring data: " + e.getMessage());
