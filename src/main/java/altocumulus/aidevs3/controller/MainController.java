@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import altocumulus.aidevs3.service.S01e02Service;
 import altocumulus.aidevs3.service.S01e03Service;
 import altocumulus.aidevs3.service.S01e05Service;
+import altocumulus.aidevs3.service.S02e01Service;
 
 @RestController
 @RequestMapping("/main")
@@ -16,12 +17,14 @@ public class MainController {
     private final S01e02Service s01e02Service;
     private final S01e03Service s01e03Service;
     private final S01e05Service s01e05Service;
+    private final S02e01Service s02e01Service;
 
     @Autowired
-    public MainController(S01e02Service s01e02Service, S01e03Service s01e03Service, S01e05Service s01e05Service) {
+    public MainController(S01e02Service s01e02Service, S01e03Service s01e03Service, S01e05Service s01e05Service, S02e01Service s02e01Service) {
         this.s01e02Service = s01e02Service;
         this.s01e03Service = s01e03Service;
         this.s01e05Service = s01e05Service;
+        this.s02e01Service = s02e01Service;
     }
 
     @GetMapping("/s01e02/flag")
@@ -37,5 +40,10 @@ public class MainController {
     @GetMapping("/s01e05/flag")
     public String getS01e05Flag() {
         return s01e05Service.getFlag();
+    }
+
+    @GetMapping("/s02e01/flag")
+    public String getS02e01Flag() {
+        return s02e01Service.getFlag();
     }
 }

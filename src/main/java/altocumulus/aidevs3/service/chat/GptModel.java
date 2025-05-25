@@ -6,6 +6,10 @@ package altocumulus.aidevs3.service.chat;
  */
 public enum GptModel {
 
+    GPT_4_1("gpt-4.1"), 
+    GPT_4_1_MINI("gpt-4.1-mini"), // Mini version of GPT-4.1 for faster, more affordable tasks
+    GPT_4_1_NANO("gpt-4.1-nano"), // Nano version of GPT-4.1, even smaller and faster
+
     // GPT-4o models - OpenAI's latest and most advanced models
     GPT_4O("gpt-4o"),
     GPT_4O_MINI("gpt-4o-mini"),
