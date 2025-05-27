@@ -91,6 +91,16 @@ curl -X GET http://localhost:8080/main/s01e03/flag
 curl -X GET http://localhost:8080/main/s01e05/flag
 ```
 
+#### S02e01 - Audio Transcription
+```bash
+curl -X GET http://localhost:8080/main/s02e01/flag
+```
+
+#### S02e02 - Map Analysis
+```bash
+curl -X GET http://localhost:8080/main/s02e02/flag
+```
+
 ## Services
 
 ### ChatService
@@ -112,14 +122,15 @@ Text censorship service that replaces sensitive information with "CENZURA" place
 - Street addresses
 - Age information
 
-Example:
-```text
-Input: 
-Podejrzany: Krzysztof Kwiatkowski. Mieszka w Szczecinie przy ul. Różanej 12. Ma 31 lat.
+#### S02e01Service
+Audio transcription service using OpenAI's Whisper model to process m4a files.
 
-Output:
-Podejrzany: CENZURA. Mieszka w CENZURA przy ul. CENZURA. Ma CENZURA lat.
-```
+#### S02e02Service
+Map fragment analysis service that:
+- Processes multiple map fragments
+- Identifies landmarks and street patterns
+- Uses AI to determine the city location
+- Handles inconsistent data detection
 
 ## Prompts
 
