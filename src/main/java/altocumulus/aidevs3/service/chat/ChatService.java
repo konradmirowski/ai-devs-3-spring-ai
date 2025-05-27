@@ -1,7 +1,13 @@
 package altocumulus.aidevs3.service.chat;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.messages.SystemMessage;
+import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.ai.chat.prompt.ChatOptions;
+import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -13,6 +19,18 @@ public class ChatService {
     @Autowired
     public ChatService(ChatClient.Builder chatClientBuilder) {
         this.chatClientBuilder = chatClientBuilder;
+    }
+
+    public String askAI(UserMessage userMessage) {
+        return askAI(userMessage, DEFAULT_SYSTEM_PROMPT, GptModel.GPT_4O.getModelId());
+    }
+
+    public String askAI(UserMessage userMessage, String systemPrompt) {
+        return askAI(userMessage, systemPrompt, GptModel.GPT_4O.getModelId());
+    }
+
+    public String askAI(UserMessage userMessage, String systemPrompt, GptModel model) {
+        return askAI(userMessage, systemPrompt, model.getModelId());
     }
 
     public String askAI(String userPrompt) {
@@ -34,6 +52,20 @@ public class ChatService {
             return chatClient.prompt()
                 .system(systemPrompt)
                 .user(userPrompt)
+                .call()
+                .content();
+        } catch (Exception e) {
+            return "Error during chat: " + e.getMessage();
+        }
+    }
+
+    private String askAI(UserMessage userMessage, String systemPrompt, String model) {
+        ChatOptions chatOptions = ChatOptions.builder().model(model).build();
+        ChatClient chatClient = chatClientBuilder.defaultOptions(chatOptions).build();
+        SystemMessage systemMessage = new SystemMessage(systemPrompt);
+        try {
+            return chatClient.prompt()
+                .messages(systemMessage, userMessage)
                 .call()
                 .content();
         } catch (Exception e) {
