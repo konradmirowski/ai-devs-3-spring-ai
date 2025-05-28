@@ -10,8 +10,8 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MimeTypeUtils;
 
-import altocumulus.aidevs3.service.chat.ChatService;
-import altocumulus.aidevs3.service.chat.GptModel;
+import altocumulus.aidevs3.client.openai.text.GptModel;
+import altocumulus.aidevs3.client.openai.text.TextClient;
 
 @Service
 public class S02e02Service {
@@ -55,7 +55,7 @@ public class S02e02Service {
     Please analyze the attached four map fragments.
     """;
 
-    private final ChatService chatService;
+    private final TextClient textClient;
     private static final List<String> IMAGE_PATHS = List.of(
         "static/s02e02/map1.png",
         "static/s02e02/map2.png",
@@ -63,8 +63,8 @@ public class S02e02Service {
         "static/s02e02/map4.png"
     );
  
-    public S02e02Service(ChatService chatService) {
-        this.chatService = chatService;
+    public S02e02Service(TextClient textClient) {
+        this.textClient = textClient;
     }
 
     public String getFlag() {
@@ -78,7 +78,7 @@ public class S02e02Service {
             .media(images)
             .build();
         
-        String aiResponse = chatService.askAI(userMessage, SYSTEM_PROMPT, GptModel.GPT_4O);
+        String aiResponse = textClient.askAI(userMessage, SYSTEM_PROMPT, GptModel.GPT_4O);
         
         return aiResponse;
     }

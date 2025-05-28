@@ -3,8 +3,8 @@ package altocumulus.aidevs3.service;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import altocumulus.aidevs3.client.ag3nts.C3ntralaClient;
+import altocumulus.aidevs3.client.openai.text.TextClient;
 import altocumulus.aidevs3.model.common.ApiRequest;
-import altocumulus.aidevs3.service.chat.ChatService;
 
 @Service
 public class S01e05Service {
@@ -34,13 +34,13 @@ public class S01e05Service {
             "Now, apply the rules above to censor the text:\n";
 
     private final C3ntralaClient c3ntralaClient;
-    private final ChatService chatService;
+    private final TextClient textClient;
 
     @Value("${c3ntrala.api.key}")
     private String apiKey;
 
-    public S01e05Service(C3ntralaClient c3ntralaClient, ChatService chatService) {
-        this.chatService = chatService;
+    public S01e05Service(C3ntralaClient c3ntralaClient, TextClient textClient) {
+        this.textClient = textClient;
         this.c3ntralaClient = c3ntralaClient;
     }
 
@@ -57,7 +57,7 @@ public class S01e05Service {
     private String censorData(String data) {
         String censoredData = "";
         try {
-            String chatResponse = chatService.askAI(data, SYSTEM_PROMPT);
+            String chatResponse = textClient.askAI(data, SYSTEM_PROMPT);
             censoredData = chatResponse;
         } catch (Exception e) {
             System.out.println("Error censoring data: " + e.getMessage());

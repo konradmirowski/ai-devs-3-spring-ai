@@ -14,10 +14,10 @@ import org.springframework.mock.web.MockMultipartFile;
 
 import altocumulus.aidevs3.client.ag3nts.C3ntralaClient;
 import altocumulus.aidevs3.client.openai.Whisper1Client;
+import altocumulus.aidevs3.client.openai.text.GptModel;
+import altocumulus.aidevs3.client.openai.text.TextClient;
 import altocumulus.aidevs3.model.common.ApiRequest;
 import altocumulus.aidevs3.model.s02e01.AudioFile;
-import altocumulus.aidevs3.service.chat.ChatService;
-import altocumulus.aidevs3.service.chat.GptModel;
 
 @Service
 public class S02e01Service {
@@ -50,7 +50,7 @@ public class S02e01Service {
         "Do not add any other words, phrases, or explanations.";
 
     private final C3ntralaClient c3ntralaClient;
-    private final ChatService chatService;
+    private final TextClient textClient;
     private final Whisper1Client whisper1Client;
     private final List<AudioFile> audioFiles = List.of(
         new AudioFile("static/s02e01/adam.m4a", "adam.m4a", "audio/mp4"),
@@ -64,9 +64,9 @@ public class S02e01Service {
     @Value("${c3ntrala.api.key}")
     private String apiKey;
  
-    public S02e01Service(C3ntralaClient c3ntralaClient, ChatService chatService, Whisper1Client whisper1Client) {
+    public S02e01Service(C3ntralaClient c3ntralaClient, TextClient textClient, Whisper1Client whisper1Client) {
         this.c3ntralaClient = c3ntralaClient;
-        this.chatService = chatService;
+        this.textClient = textClient;
         this.whisper1Client = whisper1Client;
     }
 
@@ -88,7 +88,7 @@ public class S02e01Service {
             .collect(Collectors.joining());
         System.out.println("\n\nSummarized data: " + summarizedData); //TODO: remove
 
-        String streetName = chatService.askAI(summarizedData, SYSTEM_PROMPT_2, GptModel.GPT_4_1);
+        String streetName = textClient.askAI(summarizedData, SYSTEM_PROMPT_2, GptModel.GPT_4_1);
         System.out.println("\n\nAI answer: " + streetName); //TODO: remove
         
         return sendDataToApi(streetName);
