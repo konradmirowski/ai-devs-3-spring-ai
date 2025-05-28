@@ -6,20 +6,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import altocumulus.aidevs3.service.chat.ChatService;
+import altocumulus.aidevs3.client.openai.text.TextClient;
 
 @RestController
 @RequestMapping("/chat")
 public class ChatController {
-    private final ChatService chatService;
+    private final TextClient textClient;
 
     @Autowired
-    public ChatController(ChatService chatService) {
-        this.chatService = chatService;
+    public ChatController(TextClient textClient) {
+        this.textClient = textClient;
     }
 
     @PostMapping("/sendMessage")
     public String sendMessage(@RequestBody String message) {
-        return chatService.askAI(message);
+        return textClient.askAI(message);
     }
 }

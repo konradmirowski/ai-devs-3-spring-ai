@@ -13,12 +13,12 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import altocumulus.aidevs3.client.ag3nts.C3ntralaClient;
+import altocumulus.aidevs3.client.openai.text.GptModel;
+import altocumulus.aidevs3.client.openai.text.TextClient;
 import altocumulus.aidevs3.model.common.ApiRequest;
 import altocumulus.aidevs3.model.s01e03.InputJson;
 import altocumulus.aidevs3.model.s01e03.Test;
 import altocumulus.aidevs3.model.s01e03.TestData;
-import altocumulus.aidevs3.service.chat.ChatService;
-import altocumulus.aidevs3.service.chat.GptModel;
 
 @Service
 public class S01e03Service {
@@ -26,16 +26,16 @@ public class S01e03Service {
     private static final String SYSTEM_PROMPT = "Answer questions with ONLY one word and ONLY in English.";
     
     private C3ntralaClient c3ntralaClient;
-    private ChatService chatService;
+    private TextClient textClient;
     private ObjectMapper objectMapper;
 
     @Value("${c3ntrala.api.key}")
     private String apiKey;
 
     @Autowired
-    public S01e03Service(ChatService chatService, ObjectMapper objectMapper, C3ntralaClient c3ntralaClient) {
+    public S01e03Service(TextClient textClient, ObjectMapper objectMapper, C3ntralaClient c3ntralaClient) {
         this.c3ntralaClient = c3ntralaClient;
-        this.chatService = chatService;
+        this.textClient = textClient;
         this.objectMapper = objectMapper;
     }
     
@@ -70,7 +70,7 @@ public class S01e03Service {
                     
                     // Handle test cases if present
                     Optional<Test> updatedTest = data.test().map(test -> {
-                        String aiAnswer = chatService.askAI(test.q(), SYSTEM_PROMPT, GptModel.GPT_4O_MINI);
+                        String aiAnswer = textClient.askAI(test.q(), SYSTEM_PROMPT, GptModel.GPT_4O_MINI);
                         System.out.println(String.format("AI Q: %s, AI A: %s", test.q(), aiAnswer));
                         return new Test(test.q(), aiAnswer);
                     });

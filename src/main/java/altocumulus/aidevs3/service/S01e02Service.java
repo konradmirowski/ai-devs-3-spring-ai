@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import altocumulus.aidevs3.client.ag3nts.XyzClient;
+import altocumulus.aidevs3.client.openai.text.TextClient;
 import altocumulus.aidevs3.model.s01e02.RobotCommunicationProtocol;
-import altocumulus.aidevs3.service.chat.ChatService;
 
 @Service
 public class S01e02Service {
@@ -29,13 +29,13 @@ public class S01e02Service {
         ROBOISO_2230_EXCEPTION
     );
 
-    private final ChatService chatService;
+    private final TextClient textClient;
     private final ObjectMapper objectMapper;
     private final XyzClient xyzClient;
 
     @Autowired
-    public S01e02Service(ChatService chatService, ObjectMapper objectMapper, XyzClient xyzClient) {
-        this.chatService = chatService;
+    public S01e02Service(TextClient textClient, ObjectMapper objectMapper, XyzClient xyzClient) {
+        this.textClient = textClient;
         this.objectMapper = objectMapper;
         this.xyzClient = xyzClient;
     }
@@ -60,7 +60,7 @@ public class S01e02Service {
             String newMsgId = robotCommunicationProtocol.msgID();
 
             if (!StringUtils.startsWith(newText, "{{FLG:")) {
-                String aiAnswer = chatService.askAI(newText, SYSTEM_PROMPT);
+                String aiAnswer = textClient.askAI(newText, SYSTEM_PROMPT);
                 System.out.println(String.format("AI answer: %s", aiAnswer));
                 return verify(aiAnswer, newMsgId, maxAIRequests - 1);
             } 

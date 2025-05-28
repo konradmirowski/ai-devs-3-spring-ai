@@ -1,4 +1,4 @@
-package altocumulus.aidevs3.service.chat;
+package altocumulus.aidevs3.client.openai.text;
 
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.messages.SystemMessage;
@@ -8,12 +8,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Service
-public class ChatService {
+public class TextClient {
     private final ChatClient.Builder chatClientBuilder;
     private static final String DEFAULT_SYSTEM_PROMPT = "You are a helpful assistant.";
 
     @Autowired
-    public ChatService(ChatClient.Builder chatClientBuilder) {
+    public TextClient(ChatClient.Builder chatClientBuilder) {
         this.chatClientBuilder = chatClientBuilder;
     }
 

@@ -1,4 +1,4 @@
-package altocumulus.aidevs3.service.chat;
+package altocumulus.aidevs3.client.openai.text;
 
 /**
  * Enum representing various OpenAI GPT model names.
