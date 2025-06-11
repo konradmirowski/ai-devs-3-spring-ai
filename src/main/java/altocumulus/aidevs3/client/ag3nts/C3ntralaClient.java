@@ -17,6 +17,8 @@ public class C3ntralaClient {
     private static final String POST_URL = "https://c3ntrala.ag3nts.org/report";
     private static final String S01E05_URL = "https://c3ntrala.ag3nts.org/data/%s/cenzura.txt";
     private static final String S02E03_URL = "https://c3ntrala.ag3nts.org/data/%s/robotid.json";
+    private static final String S02E05_ARTICLE_URL = "https://c3ntrala.ag3nts.org/dane/arxiv-draft.html";
+    private static final String S02E05_QUESTIONS_URL = "https://c3ntrala.ag3nts.org/data/%s/arxiv.txt";
     
     private final RestTemplate restTemplate;
     
@@ -50,6 +52,16 @@ public class C3ntralaClient {
         String url = String.format(S02E03_URL, apiKey);
         return getData(url);
     }
+
+    public String getDataForS02e05Article() {
+        return getData(S02E05_ARTICLE_URL);
+    }
+    
+    public String getDataForS02e05Questions() {
+        String url = String.format(S02E05_QUESTIONS_URL, apiKey);
+        return getData(url);
+    }
+
     public String getApiKey() {
         return apiKey;
     }
