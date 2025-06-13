@@ -103,7 +103,7 @@ public class S02e05Service {
         }
         String questions = c3ntralaClient.getDataForS02e05Questions();
         String userPrompt = String.format(ARTICLE_ANALYZER_USER_PROMPT, articleMarkdown, questions);
-        String answers = textClient.askAI(userPrompt, ARTICLE_ANALYZER_SYSTEM_PROMPT, GptModel.GPT_4O_MINI);
+        String answers = textClient.askAI(userPrompt, ARTICLE_ANALYZER_SYSTEM_PROMPT, GptModel.GPT_4O);
 
         String flag = sendDataToApi(answers); 
         return flag;
@@ -136,7 +136,7 @@ public class S02e05Service {
                 .text("Caption: " + figcaption)
                 .media(imageMedia)
                 .build();
-            String aiDescription = textClient.askAI(userMessage, IMG_ANALYZER_SYSTEM_PROMPT, GptModel.GPT_4O_MINI);
+            String aiDescription = textClient.askAI(userMessage, IMG_ANALYZER_SYSTEM_PROMPT, GptModel.GPT_4O);
 
             Element blockquote = new Element("blockquote");
             blockquote.append("<p><strong>[OPIS OBRAZU]</strong></p>");

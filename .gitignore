@@ -4,6 +4,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 private.properties
+src/main/resources/static/s02e05*
 
 ### STS ###
 .apt_generated
