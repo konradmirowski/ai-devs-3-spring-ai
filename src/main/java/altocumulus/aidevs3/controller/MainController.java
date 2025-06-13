@@ -12,6 +12,7 @@ import altocumulus.aidevs3.service.S02e01Service;
 import altocumulus.aidevs3.service.S02e02Service;
 import altocumulus.aidevs3.service.S02e03Service;
 import altocumulus.aidevs3.service.S02e04Service;
+import altocumulus.aidevs3.service.S02e05Service;
 
 @RestController
 @RequestMapping("/main")
@@ -24,10 +25,11 @@ public class MainController {
     private final S02e02Service s02e02Service;
     private final S02e03Service s02e03Service;
     private final S02e04Service s02e04Service;
+    private final S02e05Service s02e05Service;
 
     @Autowired
     public MainController(S01e02Service s01e02Service, S01e03Service s01e03Service, S01e05Service s01e05Service, 
-    S02e01Service s02e01Service, S02e02Service s02e02Service, S02e03Service s02e03Service, S02e04Service s02e04Service) {
+    S02e01Service s02e01Service, S02e02Service s02e02Service, S02e03Service s02e03Service, S02e04Service s02e04Service, S02e05Service s02e05Service) {
         this.s01e02Service = s01e02Service;
         this.s01e03Service = s01e03Service;
         this.s01e05Service = s01e05Service;
@@ -35,6 +37,7 @@ public class MainController {
         this.s02e02Service = s02e02Service;
         this.s02e03Service = s02e03Service;
         this.s02e04Service = s02e04Service;
+        this.s02e05Service = s02e05Service;
     }
 
     @GetMapping("/s01e02/flag")
@@ -70,5 +73,10 @@ public class MainController {
     @GetMapping("/s02e04/flag")
     public String getS02e04Flag() {
         return s02e04Service.getFlag();
+    }
+
+    @GetMapping("/s02e05/flag")
+    public String getS02e05Flag() {
+        return s02e05Service.getFlag();
     }
 }
