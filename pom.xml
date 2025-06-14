@@ -64,6 +64,11 @@
 			<artifactId>flexmark-html2md-converter</artifactId>
 			<version>0.64.8</version> 
 		</dependency>
+		<dependency>
+			<groupId>com.github.multiformats</groupId>
+			<artifactId>java-multibase</artifactId>
+			<version>v1.1.1</version>
+		</dependency>
  	</dependencies>
 	<dependencyManagement>
 		<dependencies>
@@ -86,4 +91,10 @@
 		</plugins>
 	</build>
 
+	<repositories>
+	<repository>
+		<id>jitpack.io</id>
+		<url>https://jitpack.io</url>
+	</repository>
+	</repositories>
 </project>
